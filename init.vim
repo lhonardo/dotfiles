@@ -26,6 +26,18 @@ set spell                 " enable spell check (may need to download language pa
 set backupdir=~/.cache/vim  " Directory to store backup files.
 set colorcolumn=            " Disable vertical center line
 
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Using Lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
 call plug#begin()
  Plug 'gilgigilgil/anderson.vim'
  Plug 'ryanoasis/vim-devicons'
@@ -35,6 +47,19 @@ call plug#begin()
  Plug 'scrooloose/nerdtree'
  Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
+ Plug 'github/copilot.vim'
+ Plug 'zbirenbaum/copilot.lua'
+ Plug 'nvim-lua/plenary.nvim'
+ Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+ Plug 'nvim-lua/plenary.nvim'
+ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 call plug#end()
 
 colorscheme anderson
+
+lua << EOF
+require("CopilotChat").setup {
+  debug = true, -- Enable debugging
+  -- See Configuration section for rest
+}
+EOF
