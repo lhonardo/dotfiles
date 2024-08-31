@@ -107,4 +107,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # NeoVim
 export PATH="$PATH:/opt/nvim-linux64/bin"
+# Default editor
 export EDITOR=nvim
