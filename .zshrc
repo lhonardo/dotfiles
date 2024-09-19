@@ -89,6 +89,9 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
+# Turn off all beeps
+unsetopt BEEP
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -110,3 +113,5 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 # Default editor
 export EDITOR=nvim
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
