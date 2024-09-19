@@ -114,4 +114,7 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 # Default editor
 export EDITOR=nvim
 
+# Use fdfind with fzf to ignore .gitignore folders by default
+export FZ_DEFAULT_COMMAND='fdfind --type f'
+export FZ_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
