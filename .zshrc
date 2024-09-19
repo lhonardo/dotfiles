@@ -117,4 +117,12 @@ export EDITOR=nvim
 # Use fdfind with fzf to ignore .gitignore folders by default
 export FZ_DEFAULT_COMMAND='fdfind --type f'
 export FZ_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Use fd for path and dir "**" completion
+_fzf_compgen_path() {
+   fd --hidden --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+   fd --type d --hidden --exclude ".git" . "$1"
+}
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
