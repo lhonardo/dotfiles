@@ -15,7 +15,6 @@ set cc=80                   " set an 80 column border for good coding style
 filetype plugin indent on   "allow auto-indenting depending on file type
 syntax on                   " syntax highlighting
 set mouse=a                 " enable mouse click
-"set clipboard=unnamedplus   " using system clipboard
 filetype plugin on
 "set cursorline              " highlight current cursorline
 set ruler                   " Show file stats
@@ -25,37 +24,44 @@ set spell                 " enable spell check (may need to download language pa
 "set noswapfile            " disable creating swap file
 set backupdir=~/.cache/vim  " Directory to store backup files.
 set colorcolumn=            " Disable vertical center line
+set clipboard=unnamedplus   " Use system clipboard
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fw <cmd>Telescope grep_string<cr>
 
-" Using Lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+let g:gitgutter_sign_added = '│'
+let g:gitgutter_sign_modified = '│'
+let g:gitgutter_sign_removed = '_'
+
+" Customize highlight groups for the signs in the sign column
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 call plug#begin()
- Plug 'gilgigilgil/anderson.vim'
- Plug 'ryanoasis/vim-devicons'
  Plug 'hashivim/vim-terraform'
- "Plug 'SirVer/ultisnips'
+ Plug 'SirVer/ultisnips'
  Plug 'honza/vim-snippets'
  Plug 'scrooloose/nerdtree'
  Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
- Plug 'github/copilot.vim'
  Plug 'zbirenbaum/copilot.lua'
  Plug 'nvim-lua/plenary.nvim'
  Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
  Plug 'nvim-lua/plenary.nvim'
  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+ Plug 'airblade/vim-gitgutter'
+ "Colorschemes
+ Plug 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
+ Plug 'ryanoasis/vim-devicons'
+ Plug 'neanias/everforest-nvim', { 'branch': 'main' }
 call plug#end()
 
-colorscheme anderson
+colorscheme everforest
 
 lua << EOF
 require("CopilotChat").setup {
