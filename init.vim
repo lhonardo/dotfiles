@@ -25,6 +25,7 @@ set spell                 " enable spell check (may need to download language pa
 set backupdir=~/.cache/vim  " Directory to store backup files.
 set colorcolumn=            " Disable vertical center line
 set clipboard=unnamedplus   " Use system clipboard
+set splitright              " Split windows to the right
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
