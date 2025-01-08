@@ -9,6 +9,12 @@ set softtabstop=4           " see multiple spaces as tabstops so <BS> does the r
 set expandtab               " converts tabs to white space
 set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
+" trigger `autoread` when files changes on disk
+set autoread
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" notification after file change
+autocmd FileChangedShellPost *
+\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 set number                  " add line numbers
 set wildmode=longest,list   " get bash-like tab completions
 set cc=80                   " set an 80 column border for good coding style
@@ -28,11 +34,12 @@ set clipboard=unnamedplus   " Use system clipboard
 set splitright              " Split windows to the right
 
 " Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader>fw <cmd>Telescope grep_string<cr>
+nnoremap <leader>ff <cmd>Telescope find_files follow=true<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep follow=true<cr>
+nnoremap <leader>fb <cmd>Telescope buffers follow=true<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags follow=true<cr>
+nnoremap <leader>fw <cmd>Telescope grep_string follow=true<cr>
+nnoremap <leader>fr <cmd>Telescope resume follow=true<cr>
 
 let g:gitgutter_sign_added = '│'
 let g:gitgutter_sign_modified = '│'
