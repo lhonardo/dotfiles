@@ -37,9 +37,14 @@ set splitright              " Split windows to the right
 nnoremap <leader>ff <cmd>Telescope find_files follow=true<cr>
 nnoremap <leader>fg <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args({ follow=true })<cr>
 nnoremap <leader>fb <cmd>Telescope buffers follow=true<cr>
+nnoremap <leader>fs <cmd>Telescope lsp_document_symbols follow=true<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags follow=true<cr>
 nnoremap <leader>fw <cmd>Telescope grep_string follow=true<cr>
 nnoremap <leader>fr <cmd>Telescope resume follow=true<cr>
+nnoremap <leader>fi <cmd>AdvancedGitSearch<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fu <cmd>Telescope undo<cr>
+nnoremap <leader>fy <cmd>Telescope neoclip<cr>
 
 let g:gitgutter_sign_added = '│'
 let g:gitgutter_sign_modified = '│'
@@ -68,19 +73,52 @@ call plug#begin()
  Plug 'ryanoasis/vim-devicons'
  Plug 'neanias/everforest-nvim', { 'branch': 'main' }
  Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+ Plug 'aaronhallaert/advanced-git-search.nvim'
+ Plug 'debugloop/telescope-undo.nvim'
+ Plug 'AckslD/nvim-neoclip.lua'
+Plug 'kkharji/sqlite.lua'
 call plug#end()
 
 colorscheme everforest
 
 lua << EOF
+local actions = require('telescope.actions')
 require("CopilotChat").setup {
   debug = true, -- Enable debugging
   -- See Configuration section for rest
 }
 require("telescope").setup {
+    defaults = {
+        mappings = {
+            i = {
+                ["<C-j>"] = actions.cycle_history_next,
+                ["<C-k>"] = actions.cycle_history_prev,
+            }
+        }
+    },
     extensions = {
-      live_grep_args = {}
+      live_grep_args = {},
+      advanced_git_search = {}
     }
   }
 require("telescope").load_extension("live_grep_args")
+require("telescope").load_extension("advanced_git_search")
+require("telescope").load_extension("undo")
+require('neoclip').setup({
+  history = 1000,
+  enable_persistent_history = true,
+  continuous_sync = true,
+  keys = {
+    telescope = {
+      i = {
+        select = '<cr>',
+        paste = '<c-p>',
+        paste_behind = '<c-k>',
+        replay = '<c-q>',  -- replay a macro
+        delete = '<c-d>',  -- delete an entry
+      },
+    }
+  }
+})
+require('telescope').load_extension('neoclip')
 EOF
