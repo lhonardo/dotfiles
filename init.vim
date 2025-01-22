@@ -35,7 +35,7 @@ set splitright              " Split windows to the right
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files follow=true<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep follow=true<cr>
+nnoremap <leader>fg <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args({ follow=true })<cr>
 nnoremap <leader>fb <cmd>Telescope buffers follow=true<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags follow=true<cr>
 nnoremap <leader>fw <cmd>Telescope grep_string follow=true<cr>
@@ -67,6 +67,7 @@ call plug#begin()
  Plug 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
  Plug 'ryanoasis/vim-devicons'
  Plug 'neanias/everforest-nvim', { 'branch': 'main' }
+ Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 call plug#end()
 
 colorscheme everforest
@@ -76,4 +77,10 @@ require("CopilotChat").setup {
   debug = true, -- Enable debugging
   -- See Configuration section for rest
 }
+require("telescope").setup {
+    extensions = {
+      live_grep_args = {}
+    }
+  }
+require("telescope").load_extension("live_grep_args")
 EOF
