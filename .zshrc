@@ -103,6 +103,8 @@ unsetopt BEEP
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias nv="nvim"
+alias k="kubectl"
 #
 # NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -114,15 +116,21 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 # Default editor
 export EDITOR=nvim
 
-# Use fdfind with fzf to ignore .gitignore folders by default
-export FZ_DEFAULT_COMMAND='fdfind --type f'
-export FZ_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# Use fd for path and dir "**" completion
+# Use fdfind for fzf to ignore .gitignore by default
+export FZF_DEFAULT_COMMAND='fdfind --type f'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# Use fd to generate the list for path completion
 _fzf_compgen_path() {
-   fd --hidden --exclude ".git" . "$1"
+  fd --hidden --exclude .git . "$1"
 }
+# Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-   fd --type d --hidden --exclude ".git" . "$1"
+  fd --type d --hidden --exclude .git . "$1"
 }
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Zoxide
+eval "$(zoxide init zsh)"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
