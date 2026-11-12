@@ -92,7 +92,7 @@ require("claude-code").setup({
     enter_insert = true,    -- Whether to enter insert mode when opening Claude Code
     hide_numbers = true,    -- Hide line numbers in the terminal window
     hide_signcolumn = true, -- Hide the sign column in the terminal window
-
+    
     -- Floating window configuration (only applies when position = "float")
     float = {
       width = "80%",        -- Width: number of columns or percentage string
