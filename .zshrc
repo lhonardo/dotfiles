@@ -71,8 +71,10 @@ ZSH_THEME="fino"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git kube-ps1)
+PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
 
+fpath=(~/.zsh/completions $fpath)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -103,8 +105,20 @@ unsetopt BEEP
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias nvim="$HOME/nvim-dist/nvim-macos-arm64/bin/nvim"
 alias nv="nvim"
-alias k="kubectl"
+alias k="kubecolor"
+alias set_kube='eval "$(gardenctl kubectl-env $(basename $SHELL))"; export KUBECONFIG=$KUBECONFIG:/Users/I776256/.kube/config'
+alias ss='eval "$(starship init zsh)"'
+alias ks='. /Users/I776256/projects/hotliner-tools/gardener-selector/gardener-selector.sh fullfzf'
+alias kubedebug='kubectl get pods -A -o wide | awk '\''NR>1 && ($4 !~ /^(Running|Completed|ContainerCreating|Terminating)$/ || ($4 == "Running" && $5+0 > 20))'\''; echo ""; pvc_output=$(kubectl get pvc -A | awk '\''NR>1 && $3 != "Bound"'\''); [ -n "$pvc_output" ] && echo -e "Unbound PVCs:\n$pvc_output"'
+autoload -Uz compinit && compinit
+gs() { . /Users/I776256/projects/hotliner-tools/gardener-selector/gardener-selector.sh "$@"; }
+_garden_zsh() {
+    local commands=(setup refresh shoots versions help)
+    compadd -a commands
+}
+compdef _garden_zsh gs
 #
 # NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -134,3 +148,20 @@ eval "$(zoxide init zsh)"
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+test -e /Users/I776256/.iterm2_shell_integration.zsh && source /Users/I776256/.iterm2_shell_integration.zsh || true
+
+# SAP specific
+source <(gardenctl rc zsh)
+
+# kcfg — Gardener K8s cluster switcher
+kcfg() {
+  case "$1" in
+    refresh|update|install|list-projects|list-shoots|fetch-active|fetch-btp|version|--version|-v|help|--help|-h)
+      kcfg-bin "$@"
+      ;;
+    *)
+      eval "$(kcfg-bin "$@")"
+      ;;
+  esac
+}
